@@ -1,3 +1,16 @@
+%top{
+
+#ifdef _MSC_VER
+// map isatty to _isatty
+#include <io.h> // required for _isatty
+#define isatty _isatty
+// map posix fileno to _fileno
+#define fileno _fileno
+/* This disables inclusion of unistd.h, which is not available under Visual C++
+ * on Win32. The C++ scanner uses STL streams instead. */
+#define YY_NO_UNISTD_H
+#endif
+}
 %option noyywrap yylineno nodefault nounput
 %{
     // Provided externally
