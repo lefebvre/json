@@ -90,6 +90,9 @@ namespace JSON
         /** Size of the object. */
         size_t size() const;
 
+        /** Contains key */
+        bool contains(const std::string& key) const;
+
     protected:
 
         /** Inner container. */
@@ -284,6 +287,8 @@ namespace JSON
         /** Cast operator for string */
         std::string as_string() const { return string_v; }
 
+        /** Contains key */
+        bool contains(const std::string& key) const;
 
     protected:
     

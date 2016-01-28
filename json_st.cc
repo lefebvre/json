@@ -242,6 +242,13 @@ const Value& Value::operator[] (size_t i) const
     return array_v[i];
 }
 
+bool Value::contains(const std::string& key) const
+{
+    if (type() != OBJECT)
+        throw std::logic_error("Value not an object");
+    return object_v.contains(key);
+}
+
 
 Object::Object() { }
 
@@ -301,6 +308,11 @@ map<string, Value>::iterator Object::end()
 size_t Object::size() const
 {
     return _object.size();
+}
+
+bool Object::contains(const std::string& key) const
+{
+    return (_object.find(key) != _object.end());
 }
 
 Array::Array() { }
