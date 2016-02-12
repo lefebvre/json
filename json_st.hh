@@ -6,7 +6,7 @@
 #include <vector>
 #include <stack>
 
-namespace JSON 
+namespace JSON
 {
 
     /** Possible JSON type of a value (array, object, bool, ...). */
@@ -30,28 +30,29 @@ namespace JSON
     class Object
     {
     public:
+        typedef std::map<std::string, Value> KeyValue;
 
         /** Constructor. */
         Object();
-    
-        /** Copy constructor. 
+
+        /** Copy constructor.
             @param o object to copy from
         */
         Object(const Object& o);
-    
+
         /** Move constructor. */
         Object(Object&& o);
-    
-        /** Assignment operator. 
+
+        /** Assignment operator.
             @param o object to copy from
         */
         Object& operator=(const Object& o);
-    
-        /** Move operator. 
+
+        /** Move operator.
             @param o object to copy from
         */
         Object& operator=(Object&& o);
-    
+
         /** Destructor. */
         ~Object();
 
@@ -68,24 +69,24 @@ namespace JSON
         /** Retrieves the starting iterator (const).
             @remark mainly for printing
         */
-        std::map<std::string, Value>::const_iterator begin() const;
+        KeyValue::const_iterator begin() const;
 
         /** Retrieves the ending iterator (const).
             @remark mainly for printing
         */
-        std::map<std::string, Value>::const_iterator end() const;
-    
+        KeyValue::const_iterator end() const;
+
         /** Retrieves the starting iterator */
-        std::map<std::string, Value>::iterator begin();
+        KeyValue::iterator begin();
 
         /** Retrieves the ending iterator */
-        std::map<std::string, Value>::iterator end();
-    
+        KeyValue::iterator end();
+
         /** Inserts a field in the object.
             @param v pair <key, value> to insert
             @return an iterator to the inserted object
         */
-        std::pair<std::map<std::string, Value>::iterator, bool> insert(const std::pair<std::string, Value>& v);
+        std::pair<KeyValue::iterator, bool> insert(const std::pair<std::string, Value>& v);
 
         /** Size of the object. */
         size_t size() const;
@@ -107,36 +108,36 @@ namespace JSON
 
         /** Default Constructor. */
         Array();
-    
+
         /** Destructor. */
         ~Array();
-    
-        /** Copy constructor. 
+
+        /** Copy constructor.
             @param a the array to copy from
         */
         Array(const Array& a);
-    
-        /** Assignment operator. 
+
+        /** Assignment operator.
             @param a array to copy from
         */
         Array& operator=(const Array& a);
-    
-        /** Move constructor. 
+
+        /** Move constructor.
             @param a the array to move from
         */
         Array(Array&& a);
 
-        /** Move assignment operator. 
+        /** Move assignment operator.
             @param a array to move from
         */
         Array& operator=(Array&& a);
 
-        /** Subscript operator, access an element by index. 
+        /** Subscript operator, access an element by index.
             @param i index of the element to access
         */
         Value& operator[] (size_t i);
-        
-        /** Subscript operator, access an element by index. 
+
+        /** Subscript operator, access an element by index.
             @param i index of the element to access
         */
         const Value& operator[] (size_t i) const;
@@ -161,7 +162,7 @@ namespace JSON
             @param n (a pointer to) the value to add
         */
         void push_back(const Value& n);
-    
+
         /** Size of the array. */
         size_t size() const;
 
@@ -176,61 +177,61 @@ namespace JSON
     class Value
     {
     public:
-    
+
         /** Default constructor (type = NIL). */
         Value();
-    
+
         /** Copy constructor. */
         Value(const Value& v);
-    
+
         /** Constructor from int. */
         Value(const long long int i);
-    
+
         /** Constructor from int. */
         Value(const long int i);
-    
+
         /** Constructor from int. */
         Value(const int i);
-    
+
         /** Constructor from float. */
         Value(const long double f);
-        
+
         /** Constructor from float. */
         Value(const double f);
-    
+
         /** Constructor from bool. */
         Value(const bool b);
-    
+
         /** Constructor from pointer to char (C-string).  */
         Value(const char* s);
 
         /** Constructor from STD string  */
         Value(const std::string& s);
-    
+
         /** Constructor from pointer to Object. */
         Value(const Object& o);
-    
+
         /** Constructor from pointer to Array. */
         Value(const Array& a);
-    
+
         /** Move constructor. */
         Value(Value&& v);
-    
+
         /** Move constructor from STD string  */
         Value(std::string&& s);
-    
+
         /** Move constructor from pointer to Object. */
         Value(Object&& o);
-    
+
         /** Move constructor from pointer to Array. */
         Value(Array&& a);
-    
+
         /** Type query. */
         ValueType type() const
         {
             return type_t;
         }
-    
+
         /** Subscript operator, access an element by key.
             @param key key of the object to access
         */
@@ -240,50 +241,50 @@ namespace JSON
             @param key key of the object to access
         */
         const Value& operator[] (const std::string& key) const;
-        
-        /** Subscript operator, access an element by index. 
+
+        /** Subscript operator, access an element by index.
             @param i index of the element to access
         */
         Value& operator[] (size_t i);
-    
-        /** Subscript operator, access an element by index. 
+
+        /** Subscript operator, access an element by index.
             @param i index of the element to access
         */
         const Value& operator[] (size_t i) const;
-    
+
         /** Assignment operator. */
         Value& operator=(const Value& v);
-    
+
         /** Move operator. */
         Value& operator=(Value&& v);
-    
+
         /** Cast operator for float */
         explicit operator long double() const { return float_v; }
-    
+
         /** Cast operator for int */
         explicit operator long long int() const { return int_v; }
-    
+
         /** Cast operator for bool */
         explicit operator bool() const { return bool_v; }
-    
+
         /** Cast operator for string */
         explicit operator std::string () const { return string_v; }
-    
+
         /** Cast operator for Object */
         operator Object () const { return object_v; }
-    
+
         /** Cast operator for Object */
         operator Array () const { return array_v; }
-        
+
         /** Cast operator for float */
         long double as_float() const { return float_v; }
-    
+
         /** Cast operator for int */
         long long int as_int() const { return int_v; }
-    
+
         /** Cast operator for bool */
         bool as_bool() const { return bool_v; }
-    
+
         /** Cast operator for string */
         std::string as_string() const { return string_v; }
 
@@ -291,18 +292,18 @@ namespace JSON
         bool contains(const std::string& key) const;
 
     protected:
-    
+
         long double         float_v;
         long long int       int_v;
         bool                bool_v;
         std::string         string_v;
-    
+
         Object              object_v;
         Array               array_v;
-    
+
         ValueType           type_t;
     };
-    
+
 
     /** Print correct indentation before printing anything */
     void indent(std::ostream& os = std::cout);
